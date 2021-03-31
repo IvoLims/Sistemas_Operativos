@@ -77,6 +77,33 @@ int main(int argc, char *argv[]) {
     return 0;
     }
 
+//Or
+
+ssize_t readln(int fd, char *line, size_t size){
+        int next_pos=0;
+        int read_bytes =0;
+        while(next_pos < size && read(fd,line+next_pos,1)>0){
+          read_bytes++;
+          if(line[next_pos] == '\n'){
+            break;
+          }
+          next_pos++;
+        }
+        return read_bytes;
+}
+
+int main(int argc, char *argv[]) {
+    char buf[1024]={};
+    int fd = open("Test.txt", O_RDONLY);
+    int line_bytes = 0;
+    while((line_bytes=readln(fd,buf,1024))>0){
+      printf("%zd",write(STDOUT_FILENO,buf,line_bytes));
+    }
+    putchar('\n');
+    close(fd);
+    return 0;
+}
+
 /* 4. Melhore a implementação da função readln evitando ler um carater de cada vez. */
 
 /* 5. Implemente, utilizando a função readln, um programa com funcionalidade similar ao comando nl,
