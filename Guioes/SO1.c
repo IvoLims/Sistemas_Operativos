@@ -96,7 +96,53 @@ $ pessoas -u "José Mourinho" 56
 
 Meça o tempo que demora a inserir 1.000.000 de pessoas (nomes e idades gerados por si). Observa
 alguma degradação de desempenho  a medida que o ficheiro cresce. */
+/*
+struct Person {
+    char name[200];
+    int age;
+}Person;
 
+int main(int argc, char *argv[]) {
+    if (argc <= 4){
+      perror("Invalid Input");
+      return 1;
+    } 
+    int file;
+    struct Person pessoa;
+    int escreve = 0;
+    switch(*(argv[1]+1)){
+           case 'i':
+                    file = open("Person.txt", O_RDWR);
+                    if (file == -1) {
+                        printf("Can't open file \n");
+                        exit(0);
+                    }
+
+                    if (escreve != 0){
+                        strcpy(pessoa.name,argv[2]);
+                        pessoa.age = atoi(argv[3]);
+
+                    } else write(1,"Already exists\n", 17);
+                    close(file);
+           break;
+           case 'u':
+                    file = open("Person.txt", O_RDWR);
+                    if (file == -1) {
+                        printf("Can't open file \n");
+                        exit(0);
+                    }
+                    if (escreve != 0){
+                        pessoa.age = atoi(argv[3]);
+
+                    } else write(1,"Something happen\n", 19);
+                    close(file);
+           break;
+           default: perror("That mode doesn't exists");
+           break;
+    }
+    return 0;
+    }
+*/
 /* 7. Faca com que a opção -i diga qual a posição no ficheiro do registo inserido e acrescente a possibilidade 
 de actualizar a idade de registos por essa posição. 
 
