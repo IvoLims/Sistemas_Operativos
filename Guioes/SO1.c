@@ -106,6 +106,56 @@ int main(int argc, char *argv[]) {
 
 /* 4. Melhore a implementação da função readln evitando ler um carater de cada vez. */
 
+#define BUFFER_SIZE 10
+
+char buffer[BUFFER_SIZE];
+int next_pos2=0;
+int last_read_bytes=0;
+//Escrevemos aqui fora ou se for dentro temos de meter static antes
+
+int readch(int fd,char* buf){
+  /*static char buffer[BUFFER_SIZE];
+    static int next_pos2=0;
+    static int last_read_bytes=0;*/
+    if(next_pos2 == last_read_bytes){
+    //Chegamos ao fim do ficheiro e temos de ir a disco
+    int bytes=0;
+    if((bytes=read(fd,buffer,BUFFER_SIZE))<1){
+      return 1;
+    }
+    next_pos2=0;
+    last_read_bytes=bytes;
+    }
+    *buf = buffer[next_pos2];
+    next_pos2++;
+    return 0;
+}
+
+ssize_t readln(int fd, char *line, size_t size){
+        int next_pos=0;
+        int read_bytes =0;
+        while(next_pos < size && readch(fd,line+next_pos)>0){
+          read_bytes++;
+          if(line[next_pos] == '\n'){
+            break;
+          }
+          next_pos++;
+        }
+        return read_bytes;
+}
+
+int main(int argc, char *argv[]) {
+    char buf[60]={};
+    int fd = open("Test.txt", O_RDONLY);
+    int line_bytes = 0;
+    while((line_bytes=readln(fd,buf,60))>0){
+      write(STDOUT_FILENO,buf,line_bytes);
+    }
+    putchar('\n');
+    close(fd);
+    return 0;
+}
+
 /* 5. Implemente, utilizando a função readln, um programa com funcionalidade similar ao comando nl,
 que numera as linhas recebidas no seu standard input. Compare o desempenho deste programa com as
 duas versões da função readln. */
