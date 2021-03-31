@@ -173,12 +173,12 @@ $ pessoas -u "José Mourinho" 56
 
 Meça o tempo que demora a inserir 1.000.000 de pessoas (nomes e idades gerados por si). Observa
 alguma degradação de desempenho  a medida que o ficheiro cresce. */
-/*
+
 struct Person {
     char name[200];
     int age;
 }Person;
-
+/*
 int main(int argc, char *argv[]) {
     if (argc <= 4){
       perror("Invalid Input");
@@ -230,3 +230,28 @@ $ pessoas -u 973 56  */
 
 /* 8. Meca o tempo que demora a alterar idades usando ambos os metodos. Observa alguma degradação de 
 desempenho a medida que o ficheiro cresce. */
+
+/*-♅-----------------------------------------------------------------------✃----------------------------------------------------------------------♅-*/
+//Notes:
+
+//Escrever na struct
+
+struct Person {
+    char name[200];
+    int age;
+}Person;
+
+int main(int argc, char *argv[]) {
+    int file = open("Person.txt",O_CREAT|O_TRUNC|O_RDWR,0644);
+    if (file == -1) {
+        printf("Can't open file \n");
+        exit(0);
+    }
+    struct Person pessoa;
+    strcpy(pessoa.name,"José Mourinho");
+    pessoa.age=34;
+    printf("Name: %s; Age: %d\n",pessoa.name,pessoa.age);
+    return 0;
+}
+
+//Tamanho do ficheiro escrito n*sizeof(Person)
