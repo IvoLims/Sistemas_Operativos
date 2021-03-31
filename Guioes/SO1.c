@@ -234,14 +234,13 @@ desempenho a medida que o ficheiro cresce. */
 /*-♅-----------------------------------------------------------------------✃----------------------------------------------------------------------♅-*/
 //Notes:
 
-//Escrever na struct
-
 struct Person {
-    char name[200];
+    char name[13];
     int age;
 }Person;
 
 int main(int argc, char *argv[]) {
+    //Escreve na struct
     int file = open("Person.txt",O_CREAT|O_TRUNC|O_RDWR,0644);
     if (file == -1) {
         printf("Can't open file \n");
@@ -251,6 +250,10 @@ int main(int argc, char *argv[]) {
     strcpy(pessoa.name,"José Mourinho");
     pessoa.age=34;
     printf("Name: %s; Age: %d\n",pessoa.name,pessoa.age);
+    //Esta parte permitirá escrever no file
+    if((write(file,&pessoa,sizeof(Person)))<0){
+      perror("Couldn't write");
+    }
     return 0;
 }
 
