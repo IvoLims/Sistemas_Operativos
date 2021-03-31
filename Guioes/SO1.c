@@ -93,10 +93,10 @@ ssize_t readln(int fd, char *line, size_t size){
 }
 
 int main(int argc, char *argv[]) {
-    char buf[1024]={};
+    char buf[60]={};
     int fd = open("Test.txt", O_RDONLY);
     int line_bytes = 0;
-    while((line_bytes=readln(fd,buf,1024))>0){
+    while((line_bytes=readln(fd,buf,60))>0){
       printf("%zd",write(STDOUT_FILENO,buf,line_bytes));
     }
     putchar('\n');
