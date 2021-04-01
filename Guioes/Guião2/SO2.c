@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h> /* chamadas ao sistema: defs e decls essenciais */
+
+/* 1. Implemente um programa que imprima o seu identificador de processo e o do seu pai. Comprove –
+invocando o comando ps – que o pai do seu processo e o interpretador de comandos que utilizou para é o
+executar. */
+  
+int main(int argc,char* argv[]){
+  printf("Identificador do Processo: %d\n",getpid());
+  printf("Pai: %d\n",getppid());
+  return 0;
+}
+
+/* 2. Implemente um programa que crie um processo filho. Pai e filho devem imprimir o seu identificador de
+processo e o do seu pai. O pai deve ainda imprimir o PID do seu filho. */
+
+/* 3. Implemente um programa que crie dez processos filhos que deverao executar sequencialmente. Para este
+efeito, os filhos podem imprimir o seu PID e o do seu pai, e finalmente, terminarem a sua execuc¸ao com
+um valor de saída igual ao seu numero de ordem (e.g.: primeiro filho criado termina com o valor 1). O
+pai deverá imprimir o código de saída de cada um dos seus filhos. */
+
+/* 4. Implemente um programa que crie dez processos filhos que deverao executar em concorrência. O pai
+deverá esperar pelo fim da execucção de todos os seus filhos, imprimindo os respectivos códigos de saída. */
+
+/* 5. Implemente um programa que crie uma descendência em profundidade de dez processos, ou seja, o
+processo cria um filho, este filho cria outro, e assim por diante ate ao décimo nível de descendência.
+Cada processo deverá imprimir o seu PID e o PID do seu pai. */
+
+/* 6. Pretende-se determinar a existência de um determinado número inteiro nas linhas de numa matriz de
+números inteiros, em que o número de colunas é muito maior do que o número de linhas. Implemente,
+utilizando processos um programa que determine a existência de um determinado número, recebido como
+argumento, numa matriz gerada aleatoriamente. */
+
+/* 7. A partir do cenário descrito no exercício anterior, pretende-se que imprima por ordem crescente os
+números de linha onde existem ocorrências do número. */
