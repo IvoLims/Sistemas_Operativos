@@ -37,6 +37,7 @@ efeito, os filhos podem imprimir o seu PID e o do seu pai, e finalmente, termina
 um valor de saída igual ao seu numero de ordem (e.g.: primeiro filho criado termina com o valor 1). O
 pai deverá imprimir o código de saída de cada um dos seus filhos. */
 
+//Padrão sequencial
 int main(int argc,char* argv[]){
   int pid;
     int nproc = 10;
@@ -56,6 +57,7 @@ int main(int argc,char* argv[]){
 /* 4. Implemente um programa que crie dez processos filhos que deverao executar em concorrência. O pai
 deverá esperar pelo fim da execucção de todos os seus filhos, imprimindo os respectivos códigos de saída. */
 
+//Padrão concurrente
 int main(int argc,char* argv[]){
     int pid;
     int nproc = 10;
