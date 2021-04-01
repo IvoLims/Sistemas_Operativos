@@ -7,9 +7,9 @@ invocando o comando ps – que o pai do seu processo e o interpretador de comand
 executar. */
   
 int main(int argc,char* argv[]){
-  printf("Identificador do Processo: %d\n",getpid());
-  printf("Pai: %d\n",getppid());
-  return 0;
+    printf("Identificador do Processo: %d\n",getpid());
+    printf("Pai: %d\n",getppid());
+    return 0;
 }
 
 /* 2. Implemente um programa que crie um processo filho. Pai e filho devem imprimir o seu identificador de
@@ -44,7 +44,6 @@ int main(int argc,char* argv[]){
     for(int i=1; i<=nproc;i++){
         if((pid = fork())==0){
         printf("PID do Filho %d: %d\n",i,getpid());
-        printf("Filho PID do Pai: %d\n",getppid());
         _exit(i);
         }else {
         int terminated_pid = wait(&status);
