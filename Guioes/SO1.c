@@ -240,8 +240,10 @@ struct Person {
 }Person;
 
 int main(int argc, char *argv[]) {
-    //Escreve na struct
-    int file = open("Person.txt",O_CREAT|O_TRUNC|O_RDWR,0644);
+    // Escreve na struct
+    int file = open("Person.txt",O_CREAT|O_TRUNC|O_RDWR,0644);  // Está sempre a apagar e a escrever de novo
+    int file = open("Person.txt",O_CREAT|O_APPEND|O_RDWR,0644); // Escreve seguidamente no fim do ficheiro mais forte
+    // Ou então no inicio lseek(file,o,SEEK_END);
     if (file == -1) {
         printf("Can't open file \n");
         exit(0);
@@ -254,7 +256,19 @@ int main(int argc, char *argv[]) {
     if((write(file,&pessoa,sizeof(Person)))<0){
       perror("Couldn't write");
     }
+    // Ler
+    
+    // Temos de voltar ao inicio do ficheiro
+    lseek(file, 0, SEEK_SET);
+    // Ou deslocar o file sizeof(Person) bytes para a esquerda
+    lseek(file, -sizeof(Person), SEEK_CUR); // lê apenas 1 posição atrás
+    
+    struct Person read_pessoa;
+    if(read(file, &pessoa, sizeof(Person)>0)){
+       printf("Name: %s; Age: %d\n",read_pessoa.name,read_pessoa.age);
+    }
+    close(file);
     return 0;
 }
 
-//Tamanho do ficheiro escrito n*sizeof(Person)
+// Tamanho do ficheiro escrito n*sizeof(Person)
