@@ -18,16 +18,16 @@ processo e o do seu pai. O pai deve ainda imprimir o PID do seu filho. */
 int main(int argc,char* argv[]){
     int pid_filho;
     if((pid_filho = fork())==0){
-       printf("Identificador do Processo: %d\n",getpid());
-       printf("Pai: %d\n",getppid());
+       printf("Identificador do Processo Filho: %d\n",getpid());
+       printf("Filho Pai PID: %d\n",getppid());
        _exit(5);
     }else{
-          printf("Identificador do Processo: %d\n",getpid());
-          printf("Pai: %d\n",getppid());
-          printf("Pai: %d\n",pid_filho);
+          printf("Identificador do Processo Pai: %d\n",getpid());
+          printf("Pai Pai PID: %d\n",getppid());
+          printf("Pai Filho PID: %d\n",pid_filho);
           int status;
           int terminated_pid = wait(&status);
-          printf("Processo filho: %d, Exit code: %d\n",terminated_pid,WEXITSTATUS(status));
+          printf("Pai Processo filho: %d, Exit code: %d\n",terminated_pid,WEXITSTATUS(status));
     }
     return 0;
 }
