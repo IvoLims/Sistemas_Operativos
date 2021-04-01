@@ -264,4 +264,3 @@ int main(int argc, char *argv[]) {
 }
 
 // Tamanho do ficheiro escrito n*sizeof(Person)
-© 2021 GitHub, Inc.
