@@ -79,6 +79,8 @@ int main(int argc,char* argv[]){
 processo cria um filho, este filho cria outro, e assim por diante ate ao décimo nível de descendência.
 Cada processo deverá imprimir o seu PID e o PID do seu pai. */
 
+//Padrão em cadeia
+
 /* 6. Pretende-se determinar a existência de um determinado número inteiro nas linhas de numa matriz de
 números inteiros, em que o número de colunas é muito maior do que o número de linhas. Implemente,
 utilizando processos um programa que determine a existência de um determinado número, recebido como
