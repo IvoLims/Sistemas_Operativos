@@ -15,6 +15,23 @@ int main(int argc,char* argv[]){
 /* 2. Implemente um programa que crie um processo filho. Pai e filho devem imprimir o seu identificador de
 processo e o do seu pai. O pai deve ainda imprimir o PID do seu filho. */
 
+int main(int argc,char* argv[]){
+    int pid_filho;
+    if((pid_filho = fork())==0){
+       printf("Identificador do Processo: %d\n",getpid());
+       printf("Pai: %d\n",getppid());
+       _exit(5);
+    }else{
+          printf("Identificador do Processo: %d\n",getpid());
+          printf("Pai: %d\n",getppid());
+          printf("Pai: %d\n",pid_filho);
+          int status;
+          int terminated_pid = wait(&status);
+          printf("Processo filho: %d, Exit code: %d\n",terminated_pid,WEXITSTATUS(status));
+    }
+    return 0;
+}
+
 /* 3. Implemente um programa que crie dez processos filhos que deverao executar sequencialmente. Para este
 efeito, os filhos podem imprimir o seu PID e o do seu pai, e finalmente, terminarem a sua execuc¸ao com
 um valor de saída igual ao seu numero de ordem (e.g.: primeiro filho criado termina com o valor 1). O
