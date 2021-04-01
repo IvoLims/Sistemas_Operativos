@@ -80,6 +80,23 @@ processo cria um filho, este filho cria outro, e assim por diante ate ao décimo
 Cada processo deverá imprimir o seu PID e o PID do seu pai. */
 
 //Padrão em cadeia
+int main(int argc,char* argv[]){
+    int pid;
+    int nproc = 10;
+    int status;
+    for(int i=1; i<=nproc;i++){
+        if((pid = fork())==0){
+        printf("PID do Filho %d: %d\n",i,getpid());
+        //_exit(i);
+        }else{
+        int terminated_pid = wait(&status);
+        printf("Pai Processo filho %d: %d\n",WEXITSTATUS(status),terminated_pid);
+        _exit(i-1);
+        }
+    }
+    _exit(10);
+    return 0;
+}
 
 /* 6. Pretende-se determinar a existência de um determinado número inteiro nas linhas de numa matriz de
 números inteiros, em que o número de colunas é muito maior do que o número de linhas. Implemente,
