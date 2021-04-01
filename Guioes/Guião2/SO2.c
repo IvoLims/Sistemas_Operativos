@@ -56,6 +56,23 @@ int main(int argc,char* argv[]){
 /* 4. Implemente um programa que crie dez processos filhos que deverao executar em concorrência. O pai
 deverá esperar pelo fim da execucção de todos os seus filhos, imprimindo os respectivos códigos de saída. */
 
+int main(int argc,char* argv[]){
+    int pid;
+    int nproc = 10;
+    int status;
+    for(int i=1; i<=nproc;i++){
+        if((pid = fork())==0){
+        printf("PID do Filho %d: %d\n",i,getpid());
+        _exit(i);
+        }
+    }
+    for(int j=1;j<=nproc;j++){
+        int terminated_pid = wait(&status);
+        printf("Pai Processo filho %d: %d\n",WEXITSTATUS(status),terminated_pid);
+    }
+    return 0;
+}
+
 /* 5. Implemente um programa que crie uma descendência em profundidade de dez processos, ou seja, o
 processo cria um filho, este filho cria outro, e assim por diante ate ao décimo nível de descendência.
 Cada processo deverá imprimir o seu PID e o PID do seu pai. */
