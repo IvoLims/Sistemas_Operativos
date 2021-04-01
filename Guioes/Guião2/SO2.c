@@ -37,6 +37,23 @@ efeito, os filhos podem imprimir o seu PID e o do seu pai, e finalmente, termina
 um valor de saída igual ao seu numero de ordem (e.g.: primeiro filho criado termina com o valor 1). O
 pai deverá imprimir o código de saída de cada um dos seus filhos. */
 
+int main(int argc,char* argv[]){
+  int pid;
+    int nproc = 10;
+    int status;
+    for(int i=1; i<=nproc;i++){
+        if((pid = fork())==0){
+        printf("PID do Filho %d: %d\n",i,getpid());
+        printf("Filho PID do Pai: %d\n",getppid());
+        _exit(i);
+        }else {
+        int terminated_pid = wait(&status);
+        printf("Pai Processo filho %d: %d\n",WEXITSTATUS(status),terminated_pid);
+        }
+    }
+    return 0;
+}
+
 /* 4. Implemente um programa que crie dez processos filhos que deverao executar em concorrência. O pai
 deverá esperar pelo fim da execucção de todos os seus filhos, imprimindo os respectivos códigos de saída. */
 
