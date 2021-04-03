@@ -121,11 +121,11 @@ int main(int argc,char* argv[]){
         //k = indice de linha onde vai procurar
         printf("O filho com o pid: %d,fica com a linha: %d.\n",getpid(),k);
         for(int l=0;l<colunas;l++){
-          if(matriz[k][l]){
-            _exit(l);
+          if(matriz[k][l] == valor){
+            _exit(1); // encontrei
           }
         }
-        _exit(255); //não encontrei - 255
+        _exit(0); //não encontrei, podia ser 255
       }
     }
     int statues;
@@ -133,12 +133,12 @@ int main(int argc,char* argv[]){
         pid_t terminate_pid = wait(&statues);
         if(WIFEXITED(statues)){
           if(WEXITSTATUES(statues)<255){
-          printf("Sucesso!! We got him, foi o %d na linha %d.\n",terminate_pid,WEXITSTATUES(statues));
+          printf("Sucesso!! We got him, quando saiu o processo %d da linha %d.\n",terminate_pid,WEXITSTATUES(statues));
           } else{
-            printf("Não foi encontrado o %d.\n",terminate_pid);
+                 printf("Não foi encontrado.\n");
           }
         } else{
-               printf("Oops.\n");
+               printf("Oops, algo correu mal ...\n");
         }
     }
     return 0;
