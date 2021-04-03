@@ -9,6 +9,8 @@ sucedida, mais nenhuma outra instrução é executada do programa original. */
 int main(int argc,char* argv[]){
     execl("/bin/ls", "ls","-l",NULL);
     //ou execl("/bin/ls","/bin/ls","-l",NULL);
+    
+    //Nada daqui para baixo será printado mas pronto, é só para ilustrar melhor
     perror("Exec");
     printf("Exec\n");
     return 0;
