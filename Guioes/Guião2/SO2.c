@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h> /* chamadas ao sistema: defs e decls essenciais */
 
 /* 1. Implemente um programa que imprima o seu identificador de processo e o do seu pai. Comprove –
