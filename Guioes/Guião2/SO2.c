@@ -103,5 +103,46 @@ números inteiros, em que o número de colunas é muito maior do que o número d
 utilizando processos um programa que determine a existência de um determinado número, recebido como
 argumento, numa matriz gerada aleatoriamente. */
 
+int main(int argc,char* argv[]){
+    int valor = atoi(argv[1]);
+    int colunas = 10;
+    int linhas = 10000;
+    int matriz[linhas][colunas];
+    int rand_max = 10000;
+    for(int i=0; i<linhas;i++){
+        for(int j=0;j<colunas;j++){
+          matriz[i][j]=rand()%rand_max;
+        }
+    }
+    printf("Matriz done.\n");
+    //Processo de procura
+    for(int k=0;k<linhas;k++){
+      if(fork()==0){
+        //k = indice de linha onde vai procurar
+        printf("O filho com o pid: %d,fica com a linha: %d.\n",getpid(),k);
+        for(int l=0;l<colunas;l++){
+          if(matriz[k][l]){
+            _exit(l);
+          }
+        }
+        _exit(255); //não encontrei - 255
+      }
+    }
+    int statues;
+    for(int i = 0;i>linhas;i++){
+        pid_t terminate_pid = wait(&statues);
+        if(WIFEXITED(statues)){
+          if(WEXITSTATUES(statues)<255){
+          printf("Sucesso!! We got him, foi o %d na linha %d.\n",terminate_pid,WEXITSTATUES(statues));
+          } else{
+            printf("Não foi encontrado o %d.\n",terminate_pid);
+          }
+        } else{
+               printf("Oops.\n");
+        }
+    }
+    return 0;
+}
+
 /* 7. A partir do cenário descrito no exercício anterior, pretende-se que imprima por ordem crescente os
 números de linha onde existem ocorrências do número. */
