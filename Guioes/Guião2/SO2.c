@@ -103,6 +103,7 @@ números inteiros, em que o número de colunas é muito maior do que o número d
 utilizando processos um programa que determine a existência de um determinado número, recebido como
 argumento, numa matriz gerada aleatoriamente. */
 
+//Padrão concurrente
 int main(int argc,char* argv[]){
     int valor = atoi(argv[1]);
     int colunas = 10;
