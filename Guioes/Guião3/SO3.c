@@ -20,6 +20,21 @@ int main(int argc,char* argv[]){
 /* 2. Implemente um programa semelhante ao anterior que execute o mesmo comando mas agora no contexto
 de um processo filho. */
 
+int main(int argc,char* argv[]){
+    printf("Antes do Exec.\n");
+    if(fork()==0){
+      //Só a imagem do filho será substituída
+      execl("/bin/ls", "ls","-l",NULL);
+      perror("Exec");
+      _exit(1);
+    }
+    printf("Filho criado com Exec\n");
+    int status;
+    pid_t terminated_pid=wait(&status);
+    printf("Filho %d terminou.\n",terminated_pid);
+    return 0;
+}
+
 // 3. Implemente um programa que imprima a lista de argumentos recebidos na sua linha de comando.
 
 /* 4. Implemente um programa que execute o programa da questao anterior com uma qualquer lista de argumentos. 
