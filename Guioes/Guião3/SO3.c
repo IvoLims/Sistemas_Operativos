@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 /* 1. Implemente um programa que execute o comando ls -l. Note que no caso da execução ser bem
