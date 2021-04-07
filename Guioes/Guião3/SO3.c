@@ -58,6 +58,12 @@ int main(int argc,char* argv[]){
 Mantendo o nome do ficheiro que corresponde o programa executável, experimente alterar o primeiro elemento 
 da lista de argumentos (índice zero do argv). */
 
+int main(int argc,char* argv[]){
+    char* comandos[] = {"ex3_printArgs","comando1","comando2",NULL};
+    execv("ex3_printArgs",comandos);
+    return 0;
+}
+
 /* 5. Implemente um programa que execute concorrentemente uma lista de executaveis especificados como
 argumentos da linha de comando. Considere os executaveis sem quaisquer argumentos próprios. O
 programa deverá esperar pelo fim da execuçáo de todos processos por si criados. */
