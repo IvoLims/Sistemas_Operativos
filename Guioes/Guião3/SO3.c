@@ -8,11 +8,21 @@
 sucedida, mais nenhuma outra instrução é executada do programa original. */
 
 int main(int argc,char* argv[]){
-    execl("/bin/ls", "ls","-l",NULL);
-    //ou execl("/bin/ls","/bin/ls","-l",NULL);
+    
+    //Poderei utilizar um ou outro
+    
+    //execl's
+    execl("/bin/ls", "ls","-l",NULL); //ou execl("/bin/ls","/bin/ls","-l",NULL);
+    execlp("ls","ls","-l",NULL)
+    
+    //execv's (vetores)
+    char* comandos[]={"/bin/ls","-l",NULL};
+    
+    execv("/bin/ls",comandos);
+    execvp("ls",comandos);
     
     //Nada daqui para baixo será printado mas pronto, é só para ilustrar melhor
-    perror("Exec");
+    perror("Error:");
     printf("Exec\n");
     return 0;
 }
