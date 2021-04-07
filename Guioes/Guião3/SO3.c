@@ -47,6 +47,13 @@ int main(int argc,char* argv[]){
 
 // 3. Implemente um programa que imprima a lista de argumentos recebidos na sua linha de comando.
 
+int main(int argc,char* argv[]){
+    for(int i=0;argv[i];i++){
+        printf("argv[%d]: %s;\n",i,argv[i]);
+    }
+    return 0;
+}
+
 /* 4. Implemente um programa que execute o programa da questao anterior com uma qualquer lista de argumentos. 
 Mantendo o nome do ficheiro que corresponde o programa executável, experimente alterar o primeiro elemento 
 da lista de argumentos (índice zero do argv). */
