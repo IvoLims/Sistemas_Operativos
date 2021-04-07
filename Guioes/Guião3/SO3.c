@@ -89,3 +89,31 @@ suportar qualquer tipo de redireccionamento, ou composição/encadeamento de pro
 O único argumento deverá ser uma string que específica um programa executável e uma eventual lista de
 argumentos. Procure que o comportamento e valor de retorno da sua funçao sejam compatíveis com a
 original. */
+
+#define MAXBUFFER 100
+
+int my_system(char* command){
+    if(command == NULL) return 1;
+    char* args[MAXBUFFER];
+    char* tokens = strtok(command," ");
+    int i=0;
+    do{ 
+        args[i++] = tokens;
+        tokens = strtok(NULL," ");
+    }while(tokens != NULL);
+    args[i] = NULL;
+    if(fork()==0){
+      execvp(args[0],args);
+      _exit(1);
+    }
+    int status;
+    wait(&status);
+    if(WIFEXITED(status)){
+      return WEXITSTATUS(status);
+    } else return -1;
+}
+
+int main(int argc,char* argv[]){
+    char command[] = "ls -l";
+    return my_system(command);
+}
