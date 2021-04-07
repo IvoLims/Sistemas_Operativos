@@ -70,6 +70,20 @@ int main(int argc,char* argv[]){
 argumentos da linha de comando. Considere os executaveis sem quaisquer argumentos próprios. O
 programa deverá esperar pelo fim da execuçáo de todos processos por si criados. */
 
+int main(int argc,char* argv[]){
+    for(int i=0;i<argc;i++){
+        if(fork()==0){
+           execlp(argv[0],argv[1],NULL); //execlp("ls","ls",NULL)
+           _exit(i);
+        }
+    }
+    for(int j=0;j<argc;j++){
+        int status;
+        wait(&status);
+    }
+    return 0;
+}
+
 /* 6. Implemente uma versao simplificada da função system(). Ao contrário da função original, não tente
 suportar qualquer tipo de redireccionamento, ou composição/encadeamento de programas executáveis.
 O único argumento deverá ser uma string que específica um programa executável e uma eventual lista de
