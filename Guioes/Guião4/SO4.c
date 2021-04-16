@@ -81,3 +81,33 @@ int main(int argc,char* argv[]){
     }
     return 0;
 }
+
+/*3. Modifique novamente o programa inicial de modo a que seja executado o comando wc, sem argumentos,
+depois do redireccionamento dos descritores de entrada e saída. Note que, mais uma vez, as associações 
+e redireccionamentos de descritores de ficheiros são preservados pela primitiva exec().*/
+
+int main(int argc,char* argv[]){
+    int fdp = open("/etc/passwd",O_RDONLY);
+    int fds = open("saida.txt",O_CREAT | O_TRUNC | O_WRONLY,0644);
+    int fde = open("erros.txt",O_CREAT | O_TRUNC | O_WRONLY,0644);
+    //stdin -> "/etc/passwd"
+    dup2(fdp, 0);
+    close(fdp);
+    //stdout -> "saida.txt"
+    dup2(fds, 1);
+    close(fds);
+    //stderr -> "erros.txt"
+    dup2(fde, 2);
+    close(fde);
+    char* c;
+    if(fork() == 0){
+       execlp("wc","wc",NULL);
+       _exit(1);
+    } else {
+            wait(NULL);
+            /*or
+            int status;
+            wait(&status);*/
+    }
+    return 0;
+}
