@@ -141,8 +141,8 @@ int main(int argc,char* argv[]){
     int pid;
     char buffer[20];
     if (pipe(p) != 0){
-    perror("Error");
-    return -1;
+        perror("Error");
+        return -1;
     }switch(pid=fork()){
             case -1:{
                      perror("Fork");
@@ -168,6 +168,35 @@ int main(int argc,char* argv[]){
                      if(WIFEXITED(status)){
                         printf("Pai terminou com codigo %d",WEXITSTATUS(status));
                      }
+            }
+  }
+    return 0;
+}
+
+int main(int argc,char* argv[]){
+    int p[2];
+    int status[2];
+    if (pipe(p) != 0){
+        perror("Error");
+        return -1;
+    }switch(fork()){
+            case -1:{
+                     perror("Fork");
+                     return -1;
+            }
+            case 0:{
+                    close(p[0]);
+                    dup2(p[1],1);
+                    close(p[1]);
+                    execlp("ls", "ls", "/etc",NULL);
+                    _exit(1);
+
+            }
+            default:{
+                     close(p[1]);
+                     dup2(p[0],0);
+                     close(p[0]);
+                     execlp("wc", "wc", "-l", NULL);
             }
   }
     return 0;
