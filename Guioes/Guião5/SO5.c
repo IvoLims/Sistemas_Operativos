@@ -122,3 +122,53 @@ int main(int argc,char* argv[]){
     return 0;
 }
 
+ssize_t readln(int fd, char *line, size_t size){
+        int next_pos=0;
+        int read_bytes =0;
+        while(next_pos < size && read(fd,line+next_pos,1)>0){
+          read_bytes++;
+          if(line[next_pos] == '\n'){
+            break;
+          }
+          next_pos++;
+        }
+        return read_bytes;
+}
+
+int main(int argc,char* argv[]){
+    int res; 
+    int p[2];
+    int pid;
+    char buffer[20];
+    if (pipe(p) != 0){
+    perror("Error");
+    return -1;
+    }switch(pid=fork()){
+            case -1:{
+                     perror("Fork");
+                     return -1;
+            }
+            case 0:{
+                    close(p[1]);
+                    dup2(p[0],0);
+                    close(p[0]);
+                    res = execlp("wc","wc",NULL);
+                    _exit(1);
+
+            }
+            default:{
+                     int status;
+                     close(p[0]);
+                     printf("Pai %d, Filho %d",getpid(),pid);
+                     while((res = readln(0,buffer,sizeof(buffer))) > 0){
+                        write(p[1], buffer, res);
+                     }
+                     close(p[1]);
+                     wait(&status);
+                     if(WIFEXITED(status)){
+                        printf("Pai terminou com codigo %d",WEXITSTATUS(status));
+                     }
+            }
+  }
+    return 0;
+}
