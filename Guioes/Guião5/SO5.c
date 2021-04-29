@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <sys/wait.h>
+#include <unistd.h> /* chamadas ao sistema: defs e decls essenciais */
+
 /* 1. Escreva um programa que crie um pipe anónimo e de seguida crie um processo filho. Relembre que as
 associações dos descritores de ficheiros são preservadas na criação do processo filho. Experimente o pai
 enviar uma linha de texto através do descritor de escrita do pipe, e o filho receber uma linha a partir do
