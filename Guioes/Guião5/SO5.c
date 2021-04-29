@@ -1,3 +1,11 @@
+/* 1. Escreva um programa que crie um pipe anónimo e de seguida crie um processo filho. Relembre que as
+associações dos descritores de ficheiros são preservadas na criação do processo filho. Experimente o pai
+enviar uma linha de texto através do descritor de escrita do pipe, e o filho receber uma linha a partir do
+respectivo descritor de leitura. Note que a informação foi transferida do pai para o filho. Experimente
+de seguida provocar um atraso antes do pai enviar a linha de texto (p. ex., sleep(5)). Note agora que
+a leitura do filho bloqueia enquanto o pai não realizar a operacão de escrita no pipe. Experimente agora
+inverter os papeis de modo a informação ser transmitida do filho para o pai. */
+  
 int pai2filho(){
   int p[2];
   char line[] = "aqui\n";
@@ -75,7 +83,9 @@ int main(int argc,char* argv[]){
     return 0;
 }
 
-//2
+/*2. Modifique o programa anterior de modo a leitura do pipe ser realizada enquanto não for detectada a
+situação de end of file no descritor respectivo. Repare que esta situação acontece apenas quando nenhum
+processo – neste caso, pai e filho – tem aberto o descritor de escrita do pipe.*/
 
 int pai2filhoV2(){
   int p[2]; //p[0] -> ler; p[1] -> escrever;
@@ -121,6 +131,12 @@ int main(int argc,char* argv[]){
     pai2filhoV2();
     return 0;
 }
+
+/*3. Escreva um programa que execute o comando wc num processo filho. O processo pai deve enviar ao
+filho através de um pipe anónimo uma sequência de linhas de texto introduzidas pelo utilizador no seu
+standard input. Recorra à técnica de redireccionamento estudada no guião anterior de modo a associar
+o standard input do processo filho ao descritor de leitura do pipe anónimo criado pelo pai. Recorde a
+necessidade de fechar o(s) descritor(es) de escrita no pipe de modo a verificar-se a situação de end of file.*/
 
 ssize_t readln(int fd, char *line, size_t size){
         int next_pos=0;
@@ -172,6 +188,9 @@ int main(int argc,char* argv[]){
   }
     return 0;
 }
+
+/*4. Escreva um programa que emule o funcionamento do interpretador de comandos na execução encadeada
+de ls /etc | wc -l.*/
 
 int main(int argc,char* argv[]){
     int p[2];
