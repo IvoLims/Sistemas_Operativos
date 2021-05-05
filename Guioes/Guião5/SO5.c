@@ -224,3 +224,96 @@ int main(int argc,char* argv[]){
   }
     return 0;
 }
+
+int exec_command(char* arg){
+    char* exec_args[10];
+    char* string;
+    int exec_ret = 0;
+    int i = 0;
+    char* command = strdup(arg);
+    string = strtok(command," ");
+    while(string != NULL){
+          exec_args[1] = string;
+          string = strtok(NULL," ");
+          i++;
+    }
+    exec_args[i] = NULL;
+    exec_ret = execvp(exec_args[0], exec_args);
+    return exec_ret;
+}
+
+/*5. Escreva um programa que emule o funcionamento do interpretador de comandos na execução encadeada
+de grep -v ˆ# /etc/passwd | cut -f7 -d: | uniq | wc -l. */
+
+int main(int argc,char* argv[]){
+    char* commands[] = {"grep -v ˆ# /etc/passwd" , "cut -f7 -d:" , "uniq" , "wc -l"};
+    int ncommands = 4;
+    int pipes[ncommands-1][2];
+    int status[ncommands];
+    for(int i = 0; i < ncommands; i++){
+        if (i == 0){
+            if (pipe(pipes[i]) != 0){
+                perror("Error");
+                return -1;
+            }switch(fork()){
+                    case -1:{
+                      perror("fork");
+                      return -1;
+                    }
+                    case 0:{
+                            close(pipes[i][0]);
+                            dup2(pipes[i][1],1);
+                            close(pipes[i][1]);
+                            exec_command(commands[i]);
+                            _exit(0);
+                    }
+                    default:{
+                             close(pipes[i][1]);
+                    }
+             }
+        }else if(i == ncommands -1){
+                 switch(fork()){
+                    case -1:{
+                      perror("fork");
+                      return -1;
+                    }
+                    case 0:{
+                            dup2(pipes[i-1][0],0);
+                            close(pipes[i-1][0]);
+                            exec_command(commands[i]);
+                            _exit(0);
+                    }
+                    default:{
+                             close(pipes[i][1]);
+                    }
+                 }
+        }else{
+              if (pipe(pipes[i]) != 0){
+                  perror("Error");
+                  return -1;
+              }switch(fork()){
+                    case -1:{
+                      perror("fork");
+                      return -1;
+                    }
+                    case 0:{
+                            close(pipes[i][0]);
+                            dup2(pipes[i][1],1);
+                            close(pipes[i][1]);
+                            dup2(pipes[i-1][0],0);
+                            close(pipes[i-1][0]);
+                            exec_command(commands[i]);
+                            _exit(0);
+                    }
+                    default:{
+                             close(pipes[i][1]);
+                             close(pipes[i-1][0]);
+                    }
+
+              }
+        }
+    }for(int j = 0; j<ncommands ;j++){
+      wait(&status[j]);
+    }
+    return 0;
+}
