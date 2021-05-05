@@ -1,6 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/wait.h>
 #include <unistd.h> /* chamadas ao sistema: defs e decls essenciais */
+#include <fcntl.h> /* O_RDONLY, O_WRONLY, O_CREAT, O_* */
 
 /* 1. Escreva um programa que crie um pipe anónimo e de seguida crie um processo filho. Relembre que as
 associações dos descritores de ficheiros são preservadas na criação do processo filho. Experimente o pai
