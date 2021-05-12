@@ -2,6 +2,7 @@
 #include <sys/stat.h>
 #include <stdio.h>
 
+//1.
 int main(int argc, char* argv[]){
     if(mkfifo("fifo",0666) == -1){
        perror("mkfifo");
@@ -71,6 +72,8 @@ int main(int argc,char* argv[]){
   close(fd_write);
   return 0;
 }
+
+//2.
 
 //  Bloqueia no 1º open se nenhum cliente escrever fica lá preso; Se o cliente escrever fica preso no ciclo se leitura. Depois de escrever volta ao início e fica a aguardar novas intruções.
 
