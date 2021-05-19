@@ -6,12 +6,12 @@ void sig_handler(int signum){
   seconds++;
 }
 void quit_handler(int signum){
-  printf(" Recebi sinal %d, o CTR+C foi chamado %d vezes.\n",signum,count);
+  printf(" Recebi o sinal %d (CTR+\), o CTR+C foi chamado %d vezes.\n",signum,count);
   exit(0);
 }
 void int_handler(int signum){
   count++;
-  printf(" Recebi o sinal %d e passaram-se %d segundos",signum,seconds);
+  printf(" Recebi o sinal %d (CTR+C) e passaram-se %d segundos",signum,seconds);
 }
 
 int main(int argc,char* argv[]){
@@ -27,7 +27,7 @@ int main(int argc,char* argv[]){
   do{
     alarm(1);
     pause();
-    printf("tic\n");
+    printf("tictac\n");
   }while(1);
   return 0;
 }
