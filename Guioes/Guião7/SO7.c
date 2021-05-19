@@ -6,7 +6,7 @@ void sig_handler(int signum){
   seconds++;
 }
 void quit_handler(int signum){
-  printf(" Recebi o sinal %d (CTR+\), o CTR+C foi chamado %d vezes.\n",signum,count);
+  printf(" Recebi o sinal %d (CTR+\\), o CTR+C foi chamado %d vezes.\n",signum,count);
   exit(0);
 }
 void int_handler(int signum){
