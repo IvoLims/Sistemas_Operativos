@@ -46,6 +46,8 @@ return 0;
 
 // Tem de entrar um cliente. O terminal de escrita nunca fecha;
 
+#define MAXBUFFER 1024
+
 int main(int argc,char* argv[]){
   char buf[MAXBUFFER];
   int bytes_read;
