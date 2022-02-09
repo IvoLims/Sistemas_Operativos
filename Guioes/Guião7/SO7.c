@@ -1,4 +1,8 @@
-//1
+/*1 Usando SIGINT, SIGQUIT e SIGALRM, escreva um programa que vá contando o tempo em segundos
+desde que começou. Se, entretanto, o utilizador carregar em Ctrl+C, o programa deverá imprimir o
+tempo passado. Se carregar em Ctrl+\ o programa deverá indicar quantas vezes o utilizador carregou
+em Ctrl+C e terminar de seguida.*/
+
 unsigned int count = 0;
 unsigned int seconds = 0;
 
