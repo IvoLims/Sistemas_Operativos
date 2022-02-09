@@ -3,7 +3,12 @@
 #include <stdio.h>
 #include <string.h>
 
-//1.
+/*1.Escreva três programas que irão ilustrar a operação de pipes com nome. O primeiro cria um pipe com
+nome “fifo”. O segundo repete para este pipe todas as linhas de texto lidas a partir do seu standard input.
+Por sua vez, o terceiro programa repete para o seu standard output todas as linhas de texto lidas a partir
+deste mesmo pipe.
+Note que, ao contrário dos pipes anónimos, a abertura para escrita de um pipe com nome bloqueia até
+que um processo o abra para leitura, e vice-versa.*/
 
 int main(int argc, char* argv[]){
     if(mkfifo("fifo",0666) == -1){
@@ -42,7 +47,9 @@ int main(int argc, char* argv[]){
 return 0;
 }
 
-//2
+/*2 Escreva um programa “servidor”, que fique a correr em background, e acrescente a um ficheiro de “log”
+todas as mensagens que sejam enviadas por “clientes”. Escreva um programa cliente que envia para o
+servidor o seu argumento. Cliente e servidor devem comunicar via pipes com nome.*/
 
 // Tem de entrar um cliente. O terminal de escrita nunca fecha;
 
@@ -79,7 +86,8 @@ int main(int argc,char* argv[]){
   return 0;
 }
 
-//  Bloqueia no 1º open se nenhum cliente escrever fica lá preso; Se o cliente escrever fica preso no ciclo se leitura. Depois de escrever volta ao início e fica a aguardar novas intruções.
+/*  Bloqueia no 1º open se nenhum cliente escrever fica lá preso; Se o cliente escrever fica preso no ciclo se leitura. Depois de escrever volta ao início 
+e fica a aguardar novas intruções. */
 
 int main(int argc,char* argv[]){
     char buf[MAXBUFFER];
