@@ -55,21 +55,13 @@ int main(int argc, char *argv[]) {
 /* 3. Implemente a leitura de uma linha (i.e. sequência terminada por \n) numa função readln:
 ssize_t readln(int fd, char *line, size_t size); */
 
-ssize_t readln(int fd, char *line, size_t size){
-        char c;
-        ssize_t i=0;
-        ssize_t res;
-        if (fd == -1) {
-        perror("Error opening file");
-        return -1;
-        }
-        while(c != '\n'){
-          res = read(fd,&c,1);
-          if (res == 0) break;
-          line[i++]+=c;
-        }
-        line[i] = '\0';
-          return i;
+ssize_t readln1(int fd, char *line, ssize_t size) {
+	ssize_t res = 0;
+	ssize_t i = 0;
+	while ((res = read(fd, &line[i], size)) > 0 && ((char) line[i] != '\n')) {
+		i+=res;
+	}
+	return i;
 }
 
 int main(int argc, char *argv[]) {
