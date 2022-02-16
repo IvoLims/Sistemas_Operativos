@@ -4,7 +4,6 @@
 #include <unistd.h> /* chamadas ao sistema: defs e decls essenciais */
 #include <fcntl.h> /* O_RDONLY, O_WRONLY, O_CREAT, O_* */
 
-
 /* 1. Implemente em C um programa mycp com funcionalidade similar ao comando cp. Varie o tamanho do
 buffer usado e meca o tempo necessario para copiar um ficheiro de grande dimensão. */
 
