@@ -3,12 +3,14 @@
 #include <sys/types.h>
 #include <unistd.h> /* chamadas ao sistema: defs e decls essenciais */
 #include <fcntl.h> /* O_RDONLY, O_WRONLY, O_CREAT, O_* */
+#include <time.h>
 
 /* 1. Implemente em C um programa mycp com funcionalidade similar ao comando cp. Varie o tamanho do
 buffer usado e meca o tempo necessario para copiar um ficheiro de grande dimensão. */
 
 int main(int argc, char *argv[]) {
     if (argc >= 3) {
+        clock_t start_time = clock();
         int fileToRead = open(argv[1], O_RDONLY);
         int fileToWrite = open(argv[2], O_CREAT | O_RDWR, 0600);
         ssize_t res = 1;
@@ -24,6 +26,7 @@ int main(int argc, char *argv[]) {
         }
         close(fileToWrite);
         close(fileToRead);
+        printf("Execution time = %lfs\n", (double)(clock() - start_time) / CLOCKS_PER_SEC);
     } else{
         printf("Can't execute the command.\nMissing %d arguments.\n",(3 - argc));
         return -1;
