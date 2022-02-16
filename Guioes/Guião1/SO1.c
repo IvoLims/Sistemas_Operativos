@@ -40,9 +40,9 @@ stdin e escreve para o seu stdout. */
 int main(int argc, char *argv[]) {
     char buffer = MAX_BUFFER;
     ssize_t bitsLidos=0;
-    bitsLidos = read(0, &buffer, MAX_BUFFER);
+    bitsLidos = read(STDIN_FILENO, &buffer, MAX_BUFFER);
     while(bitsLidos != 0){
-         write(1,&buffer,bitsLidos);
+         write(STDOUT_FILENO,&buffer,bitsLidos);
     }
   return 0;
 }
