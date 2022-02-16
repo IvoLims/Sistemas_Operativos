@@ -15,19 +15,19 @@ int main(int argc, char *argv[]) {
         int fileToWrite = open(argv[2], O_CREAT | O_RDWR, 0600);
         ssize_t res = 1;
         char buffer[1];
-    if(fileToRead == -1){
-        perror("Couldn't open the file to read.");
-        return -1;
-    }
+        if(fileToRead == -1){
+           perror("Couldn't open the file to read.");
+           return -1;
+        }
         while(res != 0) {
-            res = read(fileToRead, &buffer, 1);
-            if (res == 0) break;
-            res = write(fileToWrite, &buffer, 1);
+              res = read(fileToRead, &buffer, 1);
+              if (res == 0) break;
+              res = write(fileToWrite, &buffer, 1);
         }
         close(fileToWrite);
         close(fileToRead);
         printf("Execution time = %lfs\n", (double)(clock() - start_time) / CLOCKS_PER_SEC);
-    } else{
+    }else{
         printf("Can't execute the command.\nMissing %d arguments.\n",(3 - argc));
         return -1;
     }
@@ -55,6 +55,8 @@ int main(int argc, char *argv[]) {
 /* 3. Implemente a leitura de uma linha (i.e. sequência terminada por \n) numa função readln:
 ssize_t readln(int fd, char *line, size_t size); */
 
+//Reads both lines
+
 ssize_t readln1(int fd, char *line, ssize_t size) {
 	ssize_t res = 0;
 	ssize_t i = 0;
@@ -67,8 +69,41 @@ ssize_t readln1(int fd, char *line, ssize_t size) {
 int main(int argc, char *argv[]) {
     char line [100];
     size_t size;
-    int file = open("Test.txt", O_RDONLY);
-    size = readln(file, line, 100);
+    int file = open("Test2.txt", O_RDONLY);
+    if(file == -1){
+       perror("Couldn't open the file to read.");
+       return -1;
+    }
+    size = readln1(file, line, 100);
+    write(1, &line, size);
+    putchar('\n');
+    close(file);
+    return 0;
+    }
+
+/*Or
+Only reads one line */
+
+ssize_t readln2(int fd, char* line, size_t size) {
+    ssize_t i = 0;
+    while(i < size - 1) {
+        ssize_t bytes_read = read(fd, &line[i], 1);
+        if(bytes_read < 1) break;
+        if(line[i++] == '\n') break;
+    }
+    line[i] = 0;
+    return i;
+}
+
+int main(int argc, char *argv[]) {
+    char line [100];
+    size_t size;
+    int file = open("Test2.txt", O_RDONLY);
+    if(file == -1){
+       perror("Couldn't open the file to read.");
+       return -1;
+    }
+    size = readln1(file, line, 100);
     write(1, &line, size);
     putchar('\n');
     close(file);
@@ -77,17 +112,15 @@ int main(int argc, char *argv[]) {
 
 //Or
 
-ssize_t readln(int fd, char *line, size_t size){
-        int next_pos=0;
-        int read_bytes =0;
-        while(next_pos < size && read(fd,line+next_pos,1)>0){
-          read_bytes++;
-          if(line[next_pos] == '\n'){
-            break;
-          }
-          next_pos++;
-        }
-        return read_bytes;
+ssize_t readln2(int fd, char* line, size_t size) {
+    ssize_t i = 0;
+    while(i < size - 1) {
+        ssize_t bytes_read = read(fd, &line[i], 1);
+        if(bytes_read < 1) break;
+        if(line[i++] == '\n') break;
+    }
+    line[i] = 0;
+    return i;
 }
 
 int main(int argc, char *argv[]) {
@@ -129,7 +162,7 @@ int readch(int fd,char* buf){
     return 0;
 }
 
-ssize_t readln(int fd, char *line, size_t size){
+ssize_t readln1(int fd, char *line, size_t size){
         int next_pos=0;
         int read_bytes =0;
         while(next_pos < size && readch(fd,line+next_pos)>0){
@@ -146,7 +179,7 @@ int main(int argc, char *argv[]) {
     char buf[60]={};
     int fd = open("Test.txt", O_RDONLY);
     int line_bytes = 0;
-    while((line_bytes=readln(fd,buf,60))>0){
+    while((line_bytes=readln1(fd,buf,60))>0){
       write(STDOUT_FILENO,buf,line_bytes);
     }
     putchar('\n');
@@ -154,9 +187,44 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+// Or
+
+ssize_t readln2(int fd, char* line, size_t size) {
+    ssize_t bytes_read = read(fd, line, size);
+    if(!bytes_read) return 0;
+
+    size_t line_length = strcspn(line, "\n") + 1;
+    if(bytes_read < line_length) line_length = bytes_read;
+    line[line_length] = 0;
+    
+    lseek(fd, line_length - bytes_read, SEEK_CUR);
+    return line_length;
+}
+
 /* 5. Implemente, utilizando a função readln, um programa com funcionalidade similar ao comando nl,
 que numera as linhas recebidas no seu standard input. Compare o desempenho deste programa com as
 duas versões da função readln. */
+
+int main(int argc, char const *argv[]) {
+    char line[1024];
+    int file = open(argv[1], O_RDONLY);
+    if(file == -1){
+       perror("Couldn't open the file to read.");
+       return -1;
+    }
+    size_t size;
+    clock_t start = clock();
+    int i = 0;
+    while((size = readln1(file, line, 1024))) {
+        char lineno[100];
+        sprintf(lineno, "%*d  ", 6, i++);
+        write(STDOUT_FILENO, lineno, strlen(lineno));
+        write(STDOUT_FILENO, line, size);
+    }
+    printf("\n\nExecution time (mode %d) = %lf s\n", (mode + 1), (double)(clock() - start) / CLOCKS_PER_SEC);
+    close(file);
+    return 0;
+}
 
 /* 6. Considere uma estrutura (struct) com dados de uma pessoa (nome, idade, ...) e um ficheiro binario que 
 contem registos organizados segundo esta estrutura. Não assuma que o ficheiro cabe todo em memoria. 
