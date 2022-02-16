@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
         ssize_t res = 1;
         char buffer[1];
     if(fileToRead == -1){
-        perror("open");
+        perror("Couldn't open the file to read.");
         return -1;
     }
         while(res != 0) {
@@ -26,7 +26,11 @@ int main(int argc, char *argv[]) {
         }
         close(fileToWrite);
         close(fileToRead);
+    } else{
+        printf("Can't execute the command.\nMissing %d arguments.\n",(3 - argc));
+        return -1;
     }
+    printf("Sucess.\n");
     return 0;
 }
 
