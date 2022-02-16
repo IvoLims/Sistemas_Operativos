@@ -42,10 +42,12 @@ int main(int argc, char *argv[]) {
     ssize_t bitsLidos=0;
     bitsLidos = read(0, &buffer, MAX_BUFFER);
     while(bitsLidos != 0){
-         write(STDOUT_FILENO,&buffer,bitsLidos);
+         write(1,&buffer,bitsLidos);
     }
   return 0;
 }
+
+/*Note: STDIN_FILENO is 0, STDOUT_FILENO is 1 and STDERR_FILENO is 2.*/
 
 /* 3. Implemente a leitura de uma linha (i.e. sequência terminada por \n) numa função readln:
 ssize_t readln(int fd, char *line, size_t size); */
