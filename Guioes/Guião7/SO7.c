@@ -1,3 +1,12 @@
+#include <stdio.h>
+#include <signal.h>
+#include <sys/types.h>
+typedef void (*sighandler_t)(int);
+sighandler_t signal(int signum, sighandler_t handler);
+int kill(pid_t pid, int sig);
+unsigned int alarm(unsigned int seconds);
+int pause(void);
+
 /*1 Usando SIGINT, SIGQUIT e SIGALRM, escreva um programa que vá contando o tempo em segundos
 desde que começou. Se, entretanto, o utilizador carregar em Ctrl+C, o programa deverá imprimir o
 tempo passado. Se carregar em Ctrl+\ o programa deverá indicar quantas vezes o utilizador carregou
