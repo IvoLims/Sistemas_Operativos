@@ -241,51 +241,114 @@ struct Person {
     char name[200];
     int age;
 }Person;
-/*
+
+int escreveFicheiro(){
+    struct person p1 = {"Vitor Limao", 51};
+    struct person p2 = {"Jose Mourinho",40};
+    struct person p3 = {"Rita Tavares",10};
+    int fd = open("Person.dat",_O_CREAT | O_APPEND| O_WRONLY,0666);
+    if(fd == -1){
+        perror("Couldn't open file.");
+        return -1;
+    }
+    write(fd,&p1,sizeof(p1));
+    write(fd,&p2,sizeof(p2)); 
+    write(fd,&p3,sizeof(p3)); 
+    close(fd);
+    return 0; 
+}
+
+int acrescentaPessoa(char* nome, int idade){
+    Person pessoa;
+    strcpy(pessoa.name, nome);
+    pessoa.age = idade;
+    int file = open("Person.dat", O_CREAT | O_WRONLY,0600);
+    if (file == -1) {
+        printf("Couldn't open file.\n");
+        exit(-1);
+    }
+    int res = write(file, &pessoa, sizeof(Person));
+    if(res < 0){
+        perror("Couldn't write in file.");
+        exit(-1);
+    }
+    close(file);
+    return 0;
+}
+
+int mudaIdade(char* nome, int idade){
+    Person pessoa;
+    int file = open("Person.dat", O_CREAT | O_WRONLY,0600);
+    if(file < 0){
+        perror("Couldn't open file.\n");
+        exit(-1);
+    }
+    while(read(file,&pessoa,sizeof(Person))){
+        if(strcmp(pessoa.name,nome) == 0){
+            pessoa.age = idade;
+            int ls = lseek(fd,-sizeof(Person),SEEK_CUR);
+            if (ls<0) {
+				perror("Error lseek.");
+				return -1;
+			}
+            int wr = write(fd,&pessoa,sizeof(Person));
+            if (wr<0) {
+				perror("Error write.");
+				return -1;
+			}
+            printf("Wrote person name %s age- %d\n", p.name, p.age);
+        } else printf("Couldn't find person.\n");
+    }
+    close(file);
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
+    if(escreveFicheiro() == -1){
+        printf("Couldn't create file pessoas.dat.\n");
+        return -1;
+    }
     if (argc <= 4){
       perror("Invalid Input");
       return 1;
-    } 
-    int file;
-    struct Person pessoa;
-    int escreve = 0;
-    switch(*(argv[1]+1)){
-           case 'i':
-                    file = open("Person.txt", O_RDWR);
-                    if (file == -1) {
-                        printf("Can't open file \n");
-                        exit(0);
-                    }
-                    if (escreve != 0){
-                        strcpy(pessoa.name,argv[2]);
-                        pessoa.age = atoi(argv[3]);
-                    } else write(1,"Already exists\n", 17);
-                    close(file);
-           break;
-           case 'u':
-                    file = open("Person.txt", O_RDWR);
-                    if (file == -1) {
-                        printf("Can't open file \n");
-                        exit(0);
-                    }
-                    if (escreve != 0){
-                        pessoa.age = atoi(argv[3]);
-                    } else write(1,"Something happen\n", 19);
-                    close(file);
-           break;
-           default: perror("That mode doesn't exists");
-           break;
     }
-    return 0;
-    }
-*/
+	char id[20] ="";
+	if(strcmp(argv[1],"-i") == 0) {
+		int res = acrescentaPessoa(argv[2], atoi(argv[3]));
+		snprintf(id,20,"registo %d\n",res);
+		write(1,id,sizeof(id));
+	}
+	if(strcmp(argv[1],"-u") == 0) {
+		mudaIdade(argv[2], atoi(argv[3]));
+	}
+	return 0;
+}
+
 /* 7. Faca com que a opção -i diga qual a posição no ficheiro do registo inserido e acrescente a possibilidade 
 de actualizar a idade de registos por essa posição. 
 Exemplo:
 $ pessoas -i "José Mourinho" 55
 registo 973
 $ pessoas -u 973 56  */
+
+int acrescentaPessoa2(char* nome, int idade){
+    return 0;
+}
+
+int main(int argc, char *argv[]){
+    if(escreveFicheiro() == -1){
+        printf("Couldn't create file pessoas.dat.\n");
+        return -1;
+    }
+    if (argc <= 4){
+      perror("Invalid Input");
+      return 1;
+    }
+    if(strcmp(argv[1],"-o") == 0) {
+		acrescentaPessoa2(atoi(argv[2]),atoi(argv[3]));
+	}
+    return 0;
+}
 
 /* 8. Meca o tempo que demora a alterar idades usando ambos os metodos. Observa alguma degradação de 
 desempenho a medida que o ficheiro cresce. */
