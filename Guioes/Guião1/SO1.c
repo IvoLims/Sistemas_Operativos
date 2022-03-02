@@ -288,14 +288,14 @@ int mudaIdade(char* nome, int idade){
             pessoa.age = idade;
             int ls = lseek(fd,-sizeof(Person),SEEK_CUR);
             if (ls<0) {
-				perror("Error lseek.");
-				return -1;
-			}
+		perror("Error lseek.");
+		return -1;
+	    }
             int wr = write(fd,&pessoa,sizeof(Person));
             if (wr<0) {
-				perror("Error write.");
-				return -1;
-			}
+	        perror("Error write.");
+		return -1;
+	    }
             printf("Wrote person name %s age- %d\n", p.name, p.age);
         } else printf("Couldn't find person.\n");
     }
